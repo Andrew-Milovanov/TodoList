@@ -1,0 +1,52 @@
+.list {
+  margin-bottom: 30px;
+  li {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    cursor: pointer;
+    height: 100%;
+
+    &.active {
+      background: #ffffff;
+      box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.04);
+      border-radius: 4px;
+    }
+  }
+
+  i {
+    display: inline-flex;
+    margin-right: 8px;
+    svg {
+      path {
+        fill: #7c7c7c;
+      }
+    }
+    .badge {
+      position: relative;
+      margin-right: 3px;
+      left: 2px;
+    }
+  }
+
+  &__add-button {
+    svg {
+      path {
+        stroke: #868686;
+      }
+    }
+    span {
+      color: #767676;
+    }
+    &:hover {
+      svg {
+        path {
+          stroke: #000000;
+        }
+      }
+      span {
+        color: #000000;
+      }
+    }
+  }
+}
