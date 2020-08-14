@@ -33,7 +33,8 @@
     {
       "name": "Курс по ReactJS ToDo",
       "colorId": 7,
-      "id": 7
+      "id": 7,
+      "active": true
     }
   ],
   "tasks": [

@@ -7,6 +7,7 @@
 }
 
 .todo {
+  display: flex;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -25,6 +26,10 @@
     // border-right: 1px solid #9b9b9b;
     padding: 60px 20px;
     border-radius: 10px 0 0 10px;
+  }
+  &__tasks {
+    flex: 1;
+    padding: 60px;
   }
 }
 

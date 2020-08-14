@@ -1,0 +1,80 @@
+.tasks {
+  &__title {
+    font-family: "Montserrat Bold", arial;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 39px;
+    color: #64c4ed;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f2f2f2;
+  }
+
+  &__items-row {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+  }
+
+  &__items-info {
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 19px;
+    margin-left: 15px;
+    flex: 1;
+    border: none;
+  }
+
+  img {
+    padding-left: 15px;
+    opacity: 0.15;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.3;
+    }
+  }
+  .checkbox {
+    input {
+      display: none;
+    }
+
+    &:hover {
+      label {
+        border-color: #f2f2f2;
+        background: #f2f2f2;
+        svg {
+          path {
+            stroke: #b3b3b3;
+          }
+        }
+      }
+    }
+
+    label {
+      display: flex;
+      border: 2px solid #e8e8e8;
+      border-radius: 30px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        position: relative;
+        left: 1px;
+      }
+    }
+    input:checked + label {
+      background: #4dd599;
+      border-color: #4dd599;
+      svg {
+        path {
+          stroke: #fff;
+        }
+      }
+    }
+  }
+}
