@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AddList.scss";
 import List from "../List";
 import Badge from "../Badge";
 import closeSvg from "../../assets/img/close.svg";
+import axios from "axios";
 
 const AddList = ({ colors, onAdd }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const [selectedColor, selectColor] = useState(colors[0].id);
+  const [seletedColor, selectColor] = useState(5);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (colors) {
+      selectColor(colors[0].id);
+    }
+  }, [colors]);
 
   const onClose = () => {
     setInputValue("");
@@ -20,13 +28,21 @@ const AddList = ({ colors, onAdd }) => {
       alert("Введите название списка");
       return;
     }
-    const color = colors.filter((c) => c.id === selectedColor)[0].name;
-    onAdd({
-      id: Math.random(),
-      name: inputValue,
-      color,
-    });
-    onClose();
+    setLoading(true);
+    axios
+      .post("http://localhost:3002/lists", {
+        name: inputValue,
+        colorId: seletedColor,
+      })
+      .then(({ data }) => {
+        const color = colors.filter((c) => c.id === seletedColor)[0].name;
+        const listObj = { ...data, color: { name: color }, tasks: [] };
+        onAdd(listObj);
+        onClose();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -91,12 +107,12 @@ const AddList = ({ colors, onAdd }) => {
                 onClick={() => selectColor(color.id)}
                 color={color.name}
                 key={color.id}
-                className={selectedColor === color.id && "active"}
+                className={seletedColor === color.id && "active"}
               />
             ))}
           </div>
           <button onClick={addList} className={"button"}>
-            Добавить
+            {isLoading ? "Добавление..." : "Добавить"}
           </button>
         </div>
       )}

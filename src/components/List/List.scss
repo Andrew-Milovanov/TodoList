@@ -69,3 +69,10 @@
     }
   }
 }
+
+.cat-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 160px;
+  white-space: nowrap;
+}

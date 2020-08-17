@@ -1,23 +1,50 @@
-import React, { useState } from "react";
-import List from "./components/List";
-import AddList from "./components/AddList";
-import DB from "./assets/db.json";
-import Tasks from "./components/Tasks";
+import React, { useState, useEffect } from "react";
+import { List, AddList, Tasks } from "./components";
+import axios from "axios";
 
 const App = () => {
-  const [list, setList] = useState(
-    DB.lists.map((item) => {
-      item.color = DB.colors.filter(
-        (color) => color.id === item.colorId
-      )[0].name;
-      return item;
-    })
-  );
+  const [list, setList] = useState(null);
+  const [colors, setColors] = useState(null);
+  const [activeItem, setActiveItem] = useState(null);
 
-  const onRemove = () => {};
+  useEffect(() => {
+    axios
+      .get("http://localhost:3002/lists?_expand=color&_embed=tasks")
+      .then(({ data }) => {
+        setList(data);
+        console.log(data);
+      });
+    axios.get("http://localhost:3002/colors").then(({ data }) => {
+      setColors(data);
+    });
+  }, []);
+
+  const onRemove = (id) => {
+    const NewList = list.filter((item) => item.id !== id);
+    setList(NewList);
+  };
 
   const onAddList = (obj) => {
     const NewList = [...list, obj];
+    setList(NewList);
+  };
+  const onAddTask = (listId, TaskObj) => {
+    const NewTask = list.map((item) => {
+      if (item.id === listId) {
+        item.tasks = [...item.tasks, TaskObj];
+      }
+      return item;
+    });
+    setList(NewTask);
+  };
+
+  const onEditListTitle = (id, title) => {
+    const NewList = list.map((item) => {
+      if (item.id === id) {
+        item.name = title;
+      }
+      return item;
+    });
     setList(NewList);
   };
 
@@ -44,14 +71,31 @@ const App = () => {
               name: "Все задачи",
               active: false,
               id: 1,
+              active: true,
             },
           ]}
         />
-        <List items={list} isRemovable={true} onRemove={onRemove} />
-        <AddList onAdd={onAddList} colors={DB.colors} />
+        {list ? (
+          <List
+            items={list}
+            isRemovable={true}
+            onRemove={onRemove}
+            onClickItem={(item) => setActiveItem(item)}
+            activeItem={activeItem}
+          />
+        ) : (
+          "Загрузка..."
+        )}
+        <AddList onAdd={onAddList} colors={colors} />
       </div>
       <div className="todo__tasks">
-        <Tasks />
+        {list && activeItem && (
+          <Tasks
+            list={activeItem}
+            onAddTask={onAddTask}
+            onEditTitle={onEditListTitle}
+          />
+        )}
       </div>
     </div>
   );
