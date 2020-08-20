@@ -52,7 +52,9 @@ const Tasks = ({
           );
         })}
       </div>
-      {!withoutEmpty && <AddTaskForm list={list} onAddTask={onAddTask} />}
+      {!withoutEmpty && (
+        <AddTaskForm list={list} key={list.id} onAddTask={onAddTask} />
+      )}
     </div>
   );
 };
