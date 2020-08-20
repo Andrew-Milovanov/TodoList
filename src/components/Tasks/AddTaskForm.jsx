@@ -18,15 +18,20 @@ const AddTaskForm = ({ list, onAddTask }) => {
       completed: true,
     };
     setIsLoading(true);
-    Axios.post("http://localhost:3002/tasks", obj)
-      .then(({ data }) => {
-        onAddTask(list.id, data);
-        ToggleFrom();
-      })
-      .catch((err) => {
-        alert("Ошибка при добавлении задачи!");
-      })
-      .finally(() => setIsLoading(false));
+    if (inputValue) {
+      Axios.post("http://localhost:3002/tasks", obj)
+        .then(({ data }) => {
+          onAddTask(list.id, data);
+          ToggleFrom();
+        })
+        .catch((err) => {
+          alert("Ошибка при добавлении задачи!");
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      alert("Поле ввода осталось пустым");
+      setIsLoading(false);
+    }
   };
 
   return (
